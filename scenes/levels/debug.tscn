@@ -1,25 +1,46 @@
-[gd_scene load_steps=6 format=3 uid="uid://6242d5vf3hv2"]
+[gd_scene load_steps=12 format=3 uid="uid://6242d5vf3hv2"]
 
 [ext_resource type="Texture2D" uid="uid://dj1tuji6qiklg" path="res://sprites/tilesets/grass.png" id="1_yewb2"]
 [ext_resource type="Texture2D" uid="uid://dioic4owol7f4" path="res://sprites/tilesets/fences.png" id="2_k07qs"]
 [ext_resource type="PackedScene" uid="uid://but0cdojjushs" path="res://scenes/player/player.tscn" id="3_0ls6e"]
+[ext_resource type="Script" path="res://scripts/player/cam_target.gd" id="4_fwy3r"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mel4q"]
-shading_mode = 0
-albedo_texture = ExtResource("1_yewb2")
-uv1_scale = Vector3(2, 2, 2)
-texture_filter = 0
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_djsad"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_vlt5a"]
+sky_material = SubResource("ProceduralSkyMaterial_djsad")
+
+[sub_resource type="Environment" id="Environment_x8wbn"]
+background_mode = 2
+sky = SubResource("Sky_vlt5a")
+tonemap_mode = 2
+glow_enabled = true
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_i5jye"]
 radius = 0.055
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tibvb"]
+albedo_texture = ExtResource("1_yewb2")
+uv1_scale = Vector3(7.86, 7.86, 7.86)
+texture_filter = 0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_decl6"]
+material = SubResource("StandardMaterial3D_tibvb")
+size = Vector2(50, 50)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_gptud"]
+data = PackedVector3Array(25, 0, 25, -25, 0, 25, 25, 0, -25, -25, 0, 25, -25, 0, -25, 25, 0, -25)
+
 [node name="debug" type="Node3D"]
 
-[node name="CSGBox3D" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00517882, 0)
-use_collision = true
-size = Vector3(23.0252, 0.308656, 20.6132)
-material = SubResource("StandardMaterial3D_mel4q")
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.00937188, -0.774252, -0.632808, -0.0247405, -0.632463, 0.774196, -0.99965, 0.0229116, -0.013228, 3.53399, 4.38555, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_x8wbn")
 
 [node name="fence" type="Sprite3D" parent="."]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.216427, 0.529171)
@@ -34,5 +55,22 @@ region_rect = Rect2(0.856148, 48.7562, 15.3211, 14.8423)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="fence/StaticBody3D"]
 shape = SubResource("SphereShape3D_i5jye")
 
-[node name="Player" parent="." instance=ExtResource("3_0ls6e")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0263182, 0.171945, -0.338342)
+[node name="Player" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("3_0ls6e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0263182, 0.21253, -0.338342)
+camera = NodePath("../CameraTarget")
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_decl6")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Floor"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_gptud")
+
+[node name="CameraTarget" type="Node3D" parent="." node_paths=PackedStringArray("camera")]
+script = ExtResource("4_fwy3r")
+camera = NodePath("Camera3D")
+
+[node name="Camera3D" type="Camera3D" parent="CameraTarget"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.957556, 2.46814)
+current = true
