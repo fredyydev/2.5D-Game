@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_acdeb"]
 [ext_resource type="Texture2D" uid="uid://dgquwwo6wlpn6" path="res://sprites/characters/player.png" id="2_crpin"]
-[ext_resource type="Script" path="res://scripts/player/cam_target.gd" id="3_b01cd"]
+[ext_resource type="PackedScene" uid="uid://cmltv45n3u2jb" path="res://scenes/player/cam_target.tscn" id="3_72bbo"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_yntyo"]
 radius = 0.129273
@@ -32,6 +32,18 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../CollisionShape3D:shape")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("SphereShape3D_yntyo")]
 }
 
 [sub_resource type="Animation" id="Animation_iqmg8"]
@@ -118,6 +130,8 @@ tracks/1/keys = {
 "values": [false]
 }
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_8pr4j"]
+
 [sub_resource type="Animation" id="Animation_5eub6"]
 resource_name = "idle_up"
 loop_mode = 1
@@ -144,6 +158,18 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../CollisionShape3D:shape")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1, 0.9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [SubResource("BoxShape3D_8pr4j"), SubResource("SphereShape3D_yntyo")]
 }
 
 [sub_resource type="Animation" id="Animation_v1uhm"]
@@ -344,14 +370,11 @@ states/Walk/position = Vector2(618, 81)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_k40g5"), "Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_ri84u"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_imajc")]
 graph_offset = Vector2(-74, -82)
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_cxsk5"]
-radius = 0.215
-
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_acdeb")
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+transform = Transform3D(1.99977, 0, 0.0306468, 0, 2, 0, -0.0306468, 0, 1.99977, 0, 0, 0)
 offset = Vector2(0, 17.47)
 billboard = 1
 texture_filter = 0
@@ -378,14 +401,4 @@ parameters/conditions/is_walking = false
 parameters/Idle/blend_position = Vector2(0, 0)
 parameters/Walk/blend_position = Vector2(-0.00083822, 0.00480354)
 
-[node name="cam_target" type="StaticBody3D" parent="."]
-collision_layer = 32768
-collision_mask = 32768
-script = ExtResource("3_b01cd")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="cam_target"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
-shape = SubResource("SphereShape3D_cxsk5")
-
-[connection signal="mouse_entered" from="cam_target" to="cam_target" method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="cam_target" to="cam_target" method="_on_mouse_exited"]
+[node name="cam_target" parent="." instance=ExtResource("3_72bbo")]

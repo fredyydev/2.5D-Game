@@ -1,23 +1,11 @@
-[gd_scene load_steps=15 format=3 uid="uid://6242d5vf3hv2"]
+[gd_scene load_steps=14 format=3 uid="uid://6242d5vf3hv2"]
 
 [ext_resource type="Texture2D" uid="uid://dj1tuji6qiklg" path="res://sprites/tilesets/grass.png" id="1_yewb2"]
+[ext_resource type="PackedScene" uid="uid://cmltv45n3u2jb" path="res://scenes/player/cam_target.tscn" id="2_3hx13"]
 [ext_resource type="Texture2D" uid="uid://dioic4owol7f4" path="res://sprites/tilesets/fences.png" id="2_k07qs"]
 [ext_resource type="PackedScene" uid="uid://but0cdojjushs" path="res://scenes/player/player.tscn" id="3_0ls6e"]
 [ext_resource type="Script" path="res://scripts/player/cam_rig.gd" id="4_4fgiy"]
 [ext_resource type="Texture2D" uid="uid://dgquwwo6wlpn6" path="res://sprites/characters/player.png" id="5_x4jyo"]
-
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_djsad"]
-sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
-ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
-
-[sub_resource type="Sky" id="Sky_vlt5a"]
-sky_material = SubResource("ProceduralSkyMaterial_djsad")
-
-[sub_resource type="Environment" id="Environment_x8wbn"]
-background_mode = 2
-sky = SubResource("Sky_vlt5a")
-tonemap_mode = 2
-glow_enabled = true
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_i5jye"]
 radius = 0.055
@@ -40,12 +28,14 @@ transparency = 1
 shading_mode = 0
 albedo_texture = ExtResource("5_x4jyo")
 uv1_scale = Vector3(0.1, 0.065, 0.1)
-uv1_offset = Vector3(-0.295, 0.04, 0)
+uv1_offset = Vector3(-0.155, 0.04, 0)
 texture_filter = 0
 billboard_mode = 1
 
 [sub_resource type="QuadMesh" id="QuadMesh_a4k84"]
 material = SubResource("StandardMaterial3D_a7h3u")
+
+[sub_resource type="QuadMesh" id="QuadMesh_knkyh"]
 
 [node name="debug" type="Node3D"]
 
@@ -54,10 +44,9 @@ transform = Transform3D(-0.00937188, -0.774252, -0.632808, -0.0247405, -0.632463
 shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_x8wbn")
 
 [node name="fence" type="Sprite3D" parent="."]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.216427, 0.529171)
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.216427, 3.23011)
 billboard = 1
 texture_filter = 0
 texture = ExtResource("2_k07qs")
@@ -68,6 +57,98 @@ region_rect = Rect2(0.856148, 48.7562, 15.3211, 14.8423)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="fence/StaticBody3D"]
 shape = SubResource("SphereShape3D_i5jye")
+
+[node name="cam_target" parent="fence" instance=ExtResource("2_3hx13")]
+
+[node name="fence2" type="Sprite3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0.220335, 0.216427, 3.23011)
+billboard = 1
+texture_filter = 0
+texture = ExtResource("2_k07qs")
+region_enabled = true
+region_rect = Rect2(0.856148, 48.7562, 15.3211, 14.8423)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="fence2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="fence2/StaticBody3D"]
+shape = SubResource("SphereShape3D_i5jye")
+
+[node name="cam_target" parent="fence2" instance=ExtResource("2_3hx13")]
+
+[node name="fence3" type="Sprite3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0.402612, 0.216427, 3.23011)
+billboard = 1
+texture_filter = 0
+texture = ExtResource("2_k07qs")
+region_enabled = true
+region_rect = Rect2(0.856148, 48.7562, 15.3211, 14.8423)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="fence3"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="fence3/StaticBody3D"]
+shape = SubResource("SphereShape3D_i5jye")
+
+[node name="cam_target" parent="fence3" instance=ExtResource("2_3hx13")]
+
+[node name="fence4" type="Sprite3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0.598687, 0.216427, 3.23011)
+billboard = 1
+texture_filter = 0
+texture = ExtResource("2_k07qs")
+region_enabled = true
+region_rect = Rect2(0.856148, 48.7562, 15.3211, 14.8423)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="fence4"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="fence4/StaticBody3D"]
+shape = SubResource("SphereShape3D_i5jye")
+
+[node name="cam_target" parent="fence4" instance=ExtResource("2_3hx13")]
+
+[node name="fence5" type="Sprite3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0.799693, 0.216427, 3.23011)
+billboard = 1
+texture_filter = 0
+texture = ExtResource("2_k07qs")
+region_enabled = true
+region_rect = Rect2(0.856148, 48.7562, 15.3211, 14.8423)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="fence5"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="fence5/StaticBody3D"]
+shape = SubResource("SphereShape3D_i5jye")
+
+[node name="cam_target" parent="fence5" instance=ExtResource("2_3hx13")]
+
+[node name="fence6" type="Sprite3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 1.00878, 0.216427, 3.23011)
+billboard = 1
+texture_filter = 0
+texture = ExtResource("2_k07qs")
+region_enabled = true
+region_rect = Rect2(0.856148, 48.7562, 15.3211, 14.8423)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="fence6"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="fence6/StaticBody3D"]
+shape = SubResource("SphereShape3D_i5jye")
+
+[node name="cam_target" parent="fence6" instance=ExtResource("2_3hx13")]
+
+[node name="fence7" type="Sprite3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 1.22808, 0.216427, 3.23011)
+billboard = 1
+texture_filter = 0
+texture = ExtResource("2_k07qs")
+region_enabled = true
+region_rect = Rect2(0.856148, 48.7562, 15.3211, 14.8423)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="fence7"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="fence7/StaticBody3D"]
+shape = SubResource("SphereShape3D_i5jye")
+
+[node name="cam_target" parent="fence7" instance=ExtResource("2_3hx13")]
 
 [node name="Player" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("3_0ls6e")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0263182, 0.21253, -0.338342)
@@ -92,3 +173,27 @@ current = true
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.49488, 0.265779, 0)
 mesh = SubResource("QuadMesh_a4k84")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -27.0
+offset_right = 210.0
+grow_vertical = 0
+value = 46.34
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.74255, 0)
+mesh = SubResource("QuadMesh_knkyh")

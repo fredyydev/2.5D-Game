@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://cmltv45n3u2jb"]
+
+[ext_resource type="Script" path="res://scripts/player/cam_target.gd" id="1_aegtg"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_cxsk5"]
+radius = 0.215
+
+[node name="cam_target" type="StaticBody3D"]
+collision_layer = 32768
+collision_mask = 32768
+script = ExtResource("1_aegtg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+shape = SubResource("SphereShape3D_cxsk5")
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
