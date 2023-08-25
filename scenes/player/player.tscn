@@ -1,7 +1,8 @@
-[gd_scene load_steps=28 format=3 uid="uid://but0cdojjushs"]
+[gd_scene load_steps=30 format=3 uid="uid://but0cdojjushs"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_acdeb"]
 [ext_resource type="Texture2D" uid="uid://dgquwwo6wlpn6" path="res://sprites/characters/player.png" id="2_crpin"]
+[ext_resource type="Script" path="res://scripts/player/cam_target.gd" id="3_b01cd"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_yntyo"]
 radius = 0.129273
@@ -343,6 +344,9 @@ states/Walk/position = Vector2(618, 81)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_k40g5"), "Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_ri84u"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_imajc")]
 graph_offset = Vector2(-74, -82)
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_cxsk5"]
+radius = 0.215
+
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_acdeb")
 
@@ -373,3 +377,15 @@ parameters/conditions/is_idle = false
 parameters/conditions/is_walking = false
 parameters/Idle/blend_position = Vector2(0, 0)
 parameters/Walk/blend_position = Vector2(-0.00083822, 0.00480354)
+
+[node name="cam_target" type="StaticBody3D" parent="."]
+collision_layer = 32768
+collision_mask = 32768
+script = ExtResource("3_b01cd")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="cam_target"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+shape = SubResource("SphereShape3D_cxsk5")
+
+[connection signal="mouse_entered" from="cam_target" to="cam_target" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="cam_target" to="cam_target" method="_on_mouse_exited"]
